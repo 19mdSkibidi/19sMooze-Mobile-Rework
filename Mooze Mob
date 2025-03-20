@@ -1,0 +1,224 @@
+-- Rounded Corner Helper
+local function addCorner(uiElement, radius)
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, radius)
+    corner.Parent = uiElement
+end
+
+-- GUI Setup
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "19s Ws/Jp"
+screenGui.Parent = game.CoreGui
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 250, 0, 140)
+mainFrame.Position = UDim2.new(0.5, -125, 0.5, -70)
+mainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+mainFrame.BackgroundTransparency = 0.2
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+addCorner(mainFrame, 6)
+
+local topBar = Instance.new("Frame")
+topBar.Size = UDim2.new(1, 0, 0, 25)
+topBar.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+topBar.BorderSizePixel = 0
+topBar.Parent = mainFrame
+
+local circle = Instance.new("TextLabel")
+circle.Size = UDim2.new(0, 20, 0, 20)
+circle.Position = UDim2.new(0, 5, 0, 2)
+circle.Text = "O"
+circle.TextColor3 = Color3.fromRGB(255, 140, 0)
+circle.BackgroundTransparency = 1
+circle.Font = Enum.Font.SourceSansBold
+circle.TextSize = 20
+circle.Parent = topBar
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, -30, 1, 0)
+title.Position = UDim2.new(0, 30, 0, 0)
+title.Text = "19s Ws/Jp"
+title.TextColor3 = Color3.fromRGB(255, 140, 0)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 14
+title.TextXAlignment = Enum.TextXAlignment.Left
+title.Parent = topBar
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 20, 0, 20)
+closeButton.Position = UDim2.new(1, -25, 0, 2)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 140, 0)
+closeButton.BackgroundTransparency = 1
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextSize = 16
+closeButton.Parent = topBar
+
+local innerFrame = Instance.new("Frame")
+innerFrame.Size = UDim2.new(1, -20, 1, -35)
+innerFrame.Position = UDim2.new(0, 10, 0, 30)
+innerFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+innerFrame.BackgroundTransparency = 1
+innerFrame.BorderSizePixel = 0
+innerFrame.Parent = mainFrame
+addCorner(innerFrame, 6)
+
+local wsLabel = Instance.new("TextLabel")
+wsLabel.Size = UDim2.new(0, 100, 0, 20)
+wsLabel.Position = UDim2.new(0, 0, 0, 0)
+wsLabel.Text = "Walking Speed"
+wsLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+wsLabel.BackgroundTransparency = 1
+wsLabel.Font = Enum.Font.SourceSansBold
+wsLabel.TextSize = 14
+wsLabel.Parent = innerFrame
+
+local wsBox = Instance.new("TextBox")
+wsBox.Size = UDim2.new(0, 80, 0, 25)
+wsBox.Position = UDim2.new(0, 0, 0, 25)
+wsBox.Text = "16"
+wsBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+wsBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+wsBox.BorderSizePixel = 0
+wsBox.Font = Enum.Font.SourceSans
+wsBox.TextSize = 14
+wsBox.Parent = innerFrame
+addCorner(wsBox, 4)
+
+local defaultSpeedLabel = Instance.new("TextLabel")
+defaultSpeedLabel.Size = UDim2.new(0, 100, 0, 20)
+defaultSpeedLabel.Position = UDim2.new(0, 0, 0, 55)
+defaultSpeedLabel.Text = "Default Speed"
+defaultSpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+defaultSpeedLabel.BackgroundTransparency = 1
+defaultSpeedLabel.Font = Enum.Font.SourceSansBold
+defaultSpeedLabel.TextSize = 12
+defaultSpeedLabel.Parent = innerFrame
+
+local defaultSpeedBox = Instance.new("TextBox")
+defaultSpeedBox.Size = UDim2.new(0, 80, 0, 20)
+defaultSpeedBox.Position = UDim2.new(0, 0, 0, 70)
+defaultSpeedBox.Text = "25"
+defaultSpeedBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+defaultSpeedBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+defaultSpeedBox.BorderSizePixel = 0
+defaultSpeedBox.Font = Enum.Font.SourceSans
+defaultSpeedBox.TextSize = 12
+defaultSpeedBox.Parent = innerFrame
+addCorner(defaultSpeedBox, 4)
+
+local jpLabel = Instance.new("TextLabel")
+jpLabel.Size = UDim2.new(0, 100, 0, 20)
+jpLabel.Position = UDim2.new(0, 130, 0, 0)
+jpLabel.Text = "Jump Power"
+jpLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+jpLabel.BackgroundTransparency = 1
+jpLabel.Font = Enum.Font.SourceSansBold
+jpLabel.TextSize = 14
+jpLabel.Parent = innerFrame
+
+local jpBox = Instance.new("TextBox")
+jpBox.Size = UDim2.new(0, 80, 0, 25)
+jpBox.Position = UDim2.new(0, 130, 0, 25)
+jpBox.Text = "50"
+jpBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+jpBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+jpBox.BorderSizePixel = 0
+jpBox.Font = Enum.Font.SourceSans
+jpBox.TextSize = 14
+jpBox.Parent = innerFrame
+addCorner(jpBox, 4)
+
+-- Draggable external buttons
+local toggleGuiButton = Instance.new("TextButton")
+toggleGuiButton.Size = UDim2.new(0, 100, 0, 30)
+toggleGuiButton.Position = UDim2.new(0.5, -150, 0.85, 0)
+toggleGuiButton.Text = "Toggle GUI"
+toggleGuiButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleGuiButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+toggleGuiButton.BorderSizePixel = 0
+toggleGuiButton.Font = Enum.Font.SourceSansBold
+toggleGuiButton.TextSize = 14
+toggleGuiButton.Parent = screenGui
+toggleGuiButton.Active = true
+toggleGuiButton.Draggable = true
+addCorner(toggleGuiButton, 4)
+
+local toggleWSButton = Instance.new("TextButton")
+toggleWSButton.Size = UDim2.new(0, 100, 0, 30)
+toggleWSButton.Position = UDim2.new(0.5, 50, 0.85, 0)
+toggleWSButton.Text = "WS: ON"
+toggleWSButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleWSButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+toggleWSButton.BorderSizePixel = 0
+toggleWSButton.Font = Enum.Font.SourceSansBold
+toggleWSButton.TextSize = 14
+toggleWSButton.Parent = screenGui
+toggleWSButton.Active = true
+toggleWSButton.Draggable = true
+addCorner(toggleWSButton, 4)
+
+local toggleJPButton = Instance.new("TextButton")
+toggleJPButton.Size = UDim2.new(0, 100, 0, 30)
+toggleJPButton.Position = UDim2.new(0.5, 160, 0.85, 0)
+toggleJPButton.Text = "JP: ON"
+toggleJPButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+toggleJPButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+toggleJPButton.BorderSizePixel = 0
+toggleJPButton.Font = Enum.Font.SourceSansBold
+toggleJPButton.TextSize = 14
+toggleJPButton.Parent = screenGui
+toggleJPButton.Active = true
+toggleJPButton.Draggable = true
+addCorner(toggleJPButton, 4)
+
+-- WS/JP Logic
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid") or nil
+
+local speedEnabled = true
+local jumpEnabled = true
+
+player.CharacterAdded:Connect(function(char)
+    humanoid = nil
+    char:WaitForChild("Humanoid")
+    humanoid = char:FindFirstChildOfClass("Humanoid")
+end)
+
+local function applyValues()
+    if humanoid then
+        humanoid.WalkSpeed = speedEnabled and tonumber(wsBox.Text) or tonumber(defaultSpeedBox.Text) or 25
+        humanoid.JumpPower = jumpEnabled and tonumber(jpBox.Text) or 50
+    end
+end
+
+toggleGuiButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+end)
+
+toggleWSButton.MouseButton1Click:Connect(function()
+    speedEnabled = not speedEnabled
+    toggleWSButton.Text = speedEnabled and "WS: ON" or "WS: OFF"
+end)
+
+toggleJPButton.MouseButton1Click:Connect(function()
+    jumpEnabled = not jumpEnabled
+    toggleJPButton.Text = jumpEnabled and "JP: ON" or "JP: OFF"
+end)
+
+wsBox.FocusLost:Connect(applyValues)
+jpBox.FocusLost:Connect(applyValues)
+defaultSpeedBox.FocusLost:Connect(applyValues)
+
+RunService.RenderStepped:Connect(function()
+    if not humanoid then
+        humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid") or nil
+    end
+    applyValues()
+end)
