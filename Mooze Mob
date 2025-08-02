@@ -80,7 +80,7 @@ wsLabel.Parent = innerFrame
 local wsBox = Instance.new("TextBox")
 wsBox.Size = UDim2.new(0, 80, 0, 25)
 wsBox.Position = UDim2.new(0, 0, 0, 25)
-wsBox.Text = "16"
+wsBox.Text = "587"
 wsBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 wsBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 wsBox.BorderSizePixel = 0
@@ -88,28 +88,6 @@ wsBox.Font = Enum.Font.SourceSans
 wsBox.TextSize = 14
 wsBox.Parent = innerFrame
 addCorner(wsBox, 4)
-
-local defaultSpeedLabel = Instance.new("TextLabel")
-defaultSpeedLabel.Size = UDim2.new(0, 100, 0, 20)
-defaultSpeedLabel.Position = UDim2.new(0, 0, 0, 55)
-defaultSpeedLabel.Text = "Default Speed"
-defaultSpeedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-defaultSpeedLabel.BackgroundTransparency = 1
-defaultSpeedLabel.Font = Enum.Font.SourceSansBold
-defaultSpeedLabel.TextSize = 12
-defaultSpeedLabel.Parent = innerFrame
-
-local defaultSpeedBox = Instance.new("TextBox")
-defaultSpeedBox.Size = UDim2.new(0, 80, 0, 20)
-defaultSpeedBox.Position = UDim2.new(0, 0, 0, 70)
-defaultSpeedBox.Text = "25"
-defaultSpeedBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-defaultSpeedBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-defaultSpeedBox.BorderSizePixel = 0
-defaultSpeedBox.Font = Enum.Font.SourceSans
-defaultSpeedBox.TextSize = 12
-defaultSpeedBox.Parent = innerFrame
-addCorner(defaultSpeedBox, 4)
 
 local jpLabel = Instance.new("TextLabel")
 jpLabel.Size = UDim2.new(0, 100, 0, 20)
@@ -178,25 +156,45 @@ addCorner(toggleJPButton, 4)
 
 -- WS/JP Logic
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid") or nil
 
+getgenv().WalkSpeedValue = tonumber(wsBox.Text) or 587
+getgenv().JumpPowerValue = tonumber(jpBox.Text) or 50
 local speedEnabled = true
 local jumpEnabled = true
+
+local function applySpeed()
+    if not humanoid then return end
+    
+    humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+        if speedEnabled then
+            humanoid.WalkSpeed = getgenv().WalkSpeedValue
+        end
+    end)
+    
+    humanoid.WalkSpeed = speedEnabled and getgenv().WalkSpeedValue or 16
+end
+
+local function applyJump()
+    if not humanoid then return end
+    
+    humanoid:GetPropertyChangedSignal("JumpPower"):Connect(function()
+        if jumpEnabled then
+            humanoid.JumpPower = getgenv().JumpPowerValue
+        end
+    end)
+    
+    humanoid.JumpPower = jumpEnabled and getgenv().JumpPowerValue or 50
+end
 
 player.CharacterAdded:Connect(function(char)
     humanoid = nil
     char:WaitForChild("Humanoid")
     humanoid = char:FindFirstChildOfClass("Humanoid")
+    applySpeed()
+    applyJump()
 end)
-
-local function applyValues()
-    if humanoid then
-        humanoid.WalkSpeed = speedEnabled and tonumber(wsBox.Text) or tonumber(defaultSpeedBox.Text) or 25
-        humanoid.JumpPower = jumpEnabled and tonumber(jpBox.Text) or 50
-    end
-end
 
 toggleGuiButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = not mainFrame.Visible
@@ -205,20 +203,25 @@ end)
 toggleWSButton.MouseButton1Click:Connect(function()
     speedEnabled = not speedEnabled
     toggleWSButton.Text = speedEnabled and "WS: ON" or "WS: OFF"
+    applySpeed()
 end)
 
 toggleJPButton.MouseButton1Click:Connect(function()
     jumpEnabled = not jumpEnabled
     toggleJPButton.Text = jumpEnabled and "JP: ON" or "JP: OFF"
+    applyJump()
 end)
 
-wsBox.FocusLost:Connect(applyValues)
-jpBox.FocusLost:Connect(applyValues)
-defaultSpeedBox.FocusLost:Connect(applyValues)
-
-RunService.RenderStepped:Connect(function()
-    if not humanoid then
-        humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid") or nil
-    end
-    applyValues()
+wsBox.FocusLost:Connect(function()
+    getgenv().WalkSpeedValue = tonumber(wsBox.Text) or 250
+    applySpeed()
 end)
+
+jpBox.FocusLost:Connect(function()
+    getgenv().JumpPowerValue = tonumber(jpBox.Text) or 250
+    applyJump()
+end)
+
+-- Initial setup
+applySpeed()
+applyJump()
